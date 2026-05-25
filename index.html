@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Бриф для запуска рекламы</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f3ed;
+    --bg-card: #ffffff;
+    --ink: #1a1612;
+    --ink-soft: #5c5247;
+    --ink-muted: #8a7e72;
+    --accent: #b8884a;
+    --accent-soft: #e8d9bf;
+    --line: #e5dccc;
+    --success: #5a7d4f;
+    --shadow: 0 2px 24px rgba(60, 40, 20, 0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    font-size: 16px;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* Декоративный фоновый шум */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle at 20% 10%, rgba(184, 136, 74, 0.04) 0%, transparent 40%),
+                      radial-gradient(circle at 80% 80%, rgba(184, 136, 74, 0.05) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Шапка */
+  .hero {
+    text-align: center;
+    padding: 32px 0 40px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 40px;
+  }
+
+  .hero-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(32px, 7vw, 44px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  .hero-sub {
+    color: var(--ink-soft);
+    font-size: 15px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* Прогресс */
+  .progress-wrap {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding: 12px 0;
+    margin: -12px 0 0;
+    z-index: 10;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s, padding 0.2s;
+  }
+
+  .progress-wrap.scrolled {
+    border-bottom-color: var(--line);
+    padding: 10px 0;
+  }
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-bottom: 8px;
+  }
+
+  .progress-count {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--line);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 100px;
+  }
+
+  /* Секции */
+  .section {
+    margin: 48px 0 0;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 8px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .section-num {
+    font-family: 'Fraunces', serif;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .section-desc {
+    font-size: 14px;
+    color: var(--ink-muted);
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  /* Вопросы */
+  .question {
+    margin-bottom: 28px;
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 20px 20px 18px;
+    box-shadow: var(--shadow);
+    border: 1px solid transparent;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+
+  .question:focus-within {
+    border-color: var(--accent-soft);
+  }
+
+  .question.answered {
+    border-left: 3px solid var(--success);
+    padding-left: 18px;
+  }
+
+  .q-label {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .q-num {
+    color: var(--accent);
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    flex-shrink: 0;
+    min-width: 24px;
+  }
+
+  .q-hint {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-bottom: 12px;
+    padding-left: 34px;
+    line-height: 1.5;
+  }
+
+  textarea {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    background: #fdfaf4;
+    resize: vertical;
+    min-height: 80px;
+    transition: border-color 0.15s, background 0.15s;
+    -webkit-appearance: none;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: #ffffff;
+  }
+
+  textarea::placeholder {
+    color: #c5b9a8;
+  }
+
+  /* Финальный блок */
+  .final-block {
+    margin-top: 64px;
+    padding: 32px 24px;
+    background: var(--bg-card);
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--accent-soft);
+  }
+
+  .final-block h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .final-block p {
+    color: var(--ink-soft);
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+    text-decoration: none;
+    width: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn:active {
+    transform: scale(0.98);
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: #fdf8ec;
+  }
+
+  .btn-primary:hover {
+    background: #2a221a;
+  }
+
+  .btn-secondary {
+    background: var(--accent);
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background: #a47538;
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--accent);
+  }
+
+  .btn-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(120%);
+    background: var(--ink);
+    color: #fdf8ec;
+    padding: 14px 22px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 100;
+    max-width: 90vw;
+    text-align: center;
+  }
+
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Сохранено */
+  .autosave-info {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+
+  /* Скрываем при печати */
+  @media print {
+    .progress-wrap, .final-block { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .container { padding: 20px 16px 60px; }
+    .question { padding: 18px 16px 16px; }
+    .final-block { padding: 24px 18px; }
+    .hero { padding: 24px 0 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-label">Бриф</div>
+    <h1>Чтобы реклама приводила <em>ваших</em> клиентов</h1>
+    <p class="hero-sub">Ответьте на вопросы своими словами — можно по частям, ответы сохраняются автоматически</p>
+  </header>
+
+  <!-- ПРОГРЕСС -->
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-info">
+      <span>Заполнено</span>
+      <span class="progress-count"><span id="answered">0</span> из <span id="total">49</span></span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <!-- ФОРМА -->
+  <form id="briefForm" autocomplete="off"></form>
+
+  <!-- ФИНАЛ -->
+  <div class="final-block">
+    <h2>Готово?</h2>
+    <p>Выберите удобный способ отправки. Все ваши ответы уже сохранены в браузере.</p>
+    <div class="buttons">
+      <button type="button" class="btn btn-primary" onclick="sendToTelegram()">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+        Отправить в Telegram
+      </button>
+      <button type="button" class="btn btn-secondary" onclick="sendToWhatsApp()">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Отправить в WhatsApp
+      </button>
+      <button type="button" class="btn btn-outline" onclick="downloadFile()">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Скачать файл
+      </button>
+    </div>
+    <p class="autosave-info" id="saveInfo">Ответы автоматически сохраняются</p>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SECTIONS = [
+  {
+    num: "01",
+    title: "О вас и вашей экспертизе",
+    desc: "Материал для главного экрана и блока «обо мне»",
+    questions: [
+      { q: "Как вас зовут и как хотите представляться клиентам?", hint: "Например: «Анна Иванова», «Колорист Анна», «Anna Color Studio»" },
+      { q: "Сколько лет вы работаете колористом? Где учились?", hint: "Названия школ, имена мастеров-наставников, сертификаты — всё работает на доверие" },
+      { q: "В чём ваша главная специализация? Что получается лучше всего?", hint: "Сложный блонд, AirTouch, balayage, реставрация, седина, рыжий цвет" },
+      { q: "Какие техники окрашивания вы выполняете? Перечислите все", hint: "" },
+      { q: "Где вы работаете: салон, студия, на дому, аренда кресла?", hint: "Укажите район или адрес" },
+      { q: "Чем вы отличаетесь от других колористов в вашем городе?", hint: "Не «индивидуальный подход» — это есть у всех. За что вас рекомендуют?" },
+      { q: "Есть ли регалии: конкурсы, публикации, известные клиенты, преподавание?", hint: "" }
+    ]
+  },
+  {
+    num: "02",
+    title: "Услуги, цены, формат работы",
+    desc: "Для блока услуг, прайса и продающих офферов",
+    questions: [
+      { q: "Перечислите ВСЕ услуги с ценами", hint: "Формат: услуга — от X. Указывайте «от», если цена зависит от длины волос" },
+      { q: "Какая услуга покупается чаще всего? Какая самая прибыльная?", hint: "Это станет «локомотивными» офферами для рекламы" },
+      { q: "Сколько в среднем длится процедура? Сколько клиентов в день принимаете?", hint: "" },
+      { q: "Какой у вас средний чек?", hint: "Помогает понять, на какую аудиторию настраивать рекламу" },
+      { q: "Какими красителями вы работаете?", hint: "Wella, L'Oreal, Davines, Olaplex, Schwarzkopf — бренды работают как доказательство качества" },
+      { q: "Есть ли спецпредложения, акции, бонусы для новых клиентов?", hint: "Если нет — придумаем оффер для рекламы" },
+      { q: "Как происходит запись?", hint: "Telegram, WhatsApp, Instagram, звонок, онлайн-запись" }
+    ]
+  },
+  {
+    num: "03",
+    title: "Ваши клиенты",
+    desc: "Самый важный блок — от него зависит, попадёт ли реклама в нужных людей",
+    questions: [
+      { q: "Опишите ИДЕАЛЬНОГО клиента: пол, возраст, чем занимается, доход, семейное положение", hint: "Пример: «Женщина 28-40, работает в офисе, доход выше среднего, замужем, есть ребёнок, ценит своё время»" },
+      { q: "Где живут ваши клиенты? Едут через весь город или только местные?", hint: "Определит радиус геотаргета в рекламе" },
+      { q: "Какую проблему решает клиент, когда идёт к вам? Что у него болит?", hint: "«Отросли корни перед событием», «надоел свой цвет», «испортила волосы в дешёвом салоне», «появилась седина»" },
+      { q: "Чего боится клиент при выборе колориста? Какие возражения?", hint: "«Испортит волосы», «не тот оттенок», «дорого», «не понравится результат»" },
+      { q: "Что клиенты говорят вам ПОСЛЕ окрашивания? Дословные фразы", hint: "«Я себя не узнаю», «муж сделал комплимент», «наконец-то нашла своего мастера» — материал для отзывов и заголовков" },
+      { q: "Откуда сейчас приходят клиенты?", hint: "Сарафан, Instagram, Google-карты, реклама" },
+      { q: "Какой процент клиентов возвращается? Как часто люди ходят к колористу?", hint: "Раз в 4 недели для корней? Раз в 3 месяца? Важно для расчёта рентабельности" }
+    ]
+  },
+  {
+    num: "04",
+    title: "Конкуренты и отстройка",
+    desc: "Чтобы реклама не выглядела «как у всех»",
+    questions: [
+      { q: "Назовите 2-3 конкурентов в вашем городе. Дайте ссылки на их Instagram/сайты", hint: "" },
+      { q: "Что у этих конкурентов сделано ХОРОШО?", hint: "Можно прямо: «нравится, как у Х оформлена страница, но я бы добавил...»" },
+      { q: "А что они делают ПЛОХО? Чем вы лучше?", hint: "Одинаковые фото, нет видео процесса, не отвечают сутками, не показывают до/после" },
+      { q: "Есть ли у вас «фишка», которой нет у других?", hint: "Бесплатная диагностика, домашний уход в подарок, гарантия результата, бесплатная коррекция через 2 недели" },
+      { q: "Какой опыт получает клиент в вашей студии, кроме самой услуги?", hint: "Атмосфера, музыка, что предлагаете, как общаетесь" }
+    ]
+  },
+  {
+    num: "05",
+    title: "Визуал и материалы",
+    desc: "Хороший лендинг колориста на 50% состоит из фото",
+    questions: [
+      { q: "Есть ли фотографии работ в хорошем качестве? Сколько примерно? До/после?", hint: "Минимум для лендинга — 15-20 качественных фото" },
+      { q: "Есть ли видео процесса работы или результата?", hint: "Видео конвертирует в заявки лучше фото" },
+      { q: "Есть ли отзывы клиентов? В каком виде: скрины, видео, текст?", hint: "" },
+      { q: "Есть ли ваше профессиональное портретное фото?", hint: "Лицо мастера на лендинге повышает доверие в разы" },
+      { q: "Дайте ссылки на ваши соцсети: Instagram, TikTok, Telegram, ВК", hint: "" },
+      { q: "Есть ли у вас логотип, фирменные цвета, наработки по бренду?", hint: "Если нет — создадим визуальный стиль с нуля" }
+    ]
+  },
+  {
+    num: "06",
+    title: "Цели и бюджет",
+    desc: "Определяем, что считаем успехом и какие рамки",
+    questions: [
+      { q: "Сколько новых клиентов в МЕСЯЦ хотите получать с рекламы?", hint: "Реалистично — 10-30 для одного мастера" },
+      { q: "Какой у вас бюджет на рекламу в месяц?", hint: "Минимум для запуска — обычно от $200-300" },
+      { q: "Какие площадки приоритетны?", hint: "Instagram, TikTok, Google, Facebook" },
+      { q: "К какой дате нужно запустить рекламу и лендинг?", hint: "" },
+      { q: "Что для вас будет означать «реклама работает»?", hint: "Заявки? Записи? Возвратные клиенты? Конкретные цифры?" },
+      { q: "Есть ли периоды загрузки и спада в работе?", hint: "Праздники, лето — это влияет на стратегию" }
+    ]
+  },
+  {
+    num: "07",
+    title: "Тон голоса и стиль",
+    desc: "От этого зависит, как будут написаны все тексты",
+    questions: [
+      { q: "Как вы общаетесь с клиентами: на «ты» или на «вы»?", hint: "" },
+      { q: "Какие 3-5 слов описывают вас как мастера?", hint: "«Премиум, спокойствие, экспертность, забота» ИЛИ «творчество, смелость, индивидуальность, драйв»" },
+      { q: "Какие сайты или Instagram-аккаунты колористов вам нравятся визуально? 3-5 ссылок", hint: "Можно из любой ниши — главное чтобы вам нравилось" },
+      { q: "А что вам категорически НЕ нравится? Чего точно не должно быть на лендинге?", hint: "Любые вещи: стоковые фото, розово-золотые градиенты, шаблонные слова" },
+      { q: "Какие эмоции должен испытывать человек на вашем лендинге?", hint: "«Доверие и спокойствие», «хочу записаться прямо сейчас», «это премиум»" }
+    ]
+  },
+  {
+    num: "08",
+    title: "Технические моменты",
+    desc: "",
+    questions: [
+      { q: "Есть ли у вас домен (адрес сайта)? Или нужно подобрать?", hint: "" },
+      { q: "Куда должны приходить заявки с лендинга?", hint: "Почта, Telegram, CRM" },
+      { q: "Нужна интеграция с онлайн-записью (YClients, Altegio)?", hint: "" },
+      { q: "Нужен ли мессенджер на сайте? Какие номера и аккаунты?", hint: "" },
+      { q: "Есть ли профили на Google Картах, 2ГИС, Яндекс Картах? Ссылки", hint: "" }
+    ]
+  },
+  {
+    num: "09",
+    title: "Что-то ещё?",
+    desc: "Любая информация — это материал для текстов",
+    questions: [
+      { q: "Напишите всё, что важно, но не вошло в анкету", hint: "Истории клиентов, ваши мысли, страхи, ожидания, ограничения" }
+    ]
+  }
+];
+
+const STORAGE_KEY = 'brief_colorist_answers_v1';
+const form = document.getElementById('briefForm');
+let questionCount = 0;
+
+// Рендерим форму
+SECTIONS.forEach((section, sIdx) => {
+  const sectionEl = document.createElement('section');
+  sectionEl.className = 'section';
+  sectionEl.innerHTML = `
+    <div class="section-header">
+      <span class="section-num">${section.num}</span>
+      <h2 class="section-title">${section.title}</h2>
+    </div>
+    ${section.desc ? `<p class="section-desc">${section.desc}</p>` : ''}
+  `;
+
+  section.questions.forEach((qData) => {
+    questionCount++;
+    const qIdx = questionCount;
+    const qEl = document.createElement('div');
+    qEl.className = 'question';
+    qEl.dataset.qid = qIdx;
+    qEl.innerHTML = `
+      <label class="q-label" for="q${qIdx}">
+        <span class="q-num">${qIdx}.</span>
+        <span>${qData.q}</span>
+      </label>
+      ${qData.hint ? `<div class="q-hint">${qData.hint}</div>` : ''}
+      <textarea id="q${qIdx}" name="q${qIdx}" data-question="${qData.q.replace(/"/g, '&quot;')}" rows="2" placeholder="Ваш ответ..."></textarea>
+    `;
+    sectionEl.appendChild(qEl);
+  });
+
+  form.appendChild(sectionEl);
+});
+
+document.getElementById('total').textContent = questionCount;
+
+// Загрузка из localStorage
+function loadAnswers() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    const data = JSON.parse(saved);
+    Object.keys(data).forEach(key => {
+      const el = document.getElementById(key);
+      if (el) el.value = data[key];
+    });
+    updateProgress();
+  } catch(e) { console.error(e); }
+}
+
+// Сохранение
+let saveTimeout;
+function saveAnswers() {
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(() => {
+    const data = {};
+    document.querySelectorAll('textarea').forEach(el => {
+      if (el.value.trim()) data[el.id] = el.value;
+    });
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      const info = document.getElementById('saveInfo');
+      info.textContent = '✓ Сохранено ' + new Date().toLocaleTimeString('ru-RU', {hour: '2-digit', minute: '2-digit'});
+    } catch(e) {}
+  }, 600);
+}
+
+// Прогресс
+function updateProgress() {
+  let answered = 0;
+  document.querySelectorAll('textarea').forEach(el => {
+    const wrap = el.closest('.question');
+    if (el.value.trim().length > 0) {
+      answered++;
+      wrap.classList.add('answered');
+    } else {
+      wrap.classList.remove('answered');
+    }
+  });
+  document.getElementById('answered').textContent = answered;
+  const percent = (answered / questionCount) * 100;
+  document.getElementById('progressFill').style.width = percent + '%';
+}
+
+document.addEventListener('input', (e) => {
+  if (e.target.tagName === 'TEXTAREA') {
+    saveAnswers();
+    updateProgress();
+    // Авто-высота
+    e.target.style.height = 'auto';
+    e.target.style.height = e.target.scrollHeight + 'px';
+  }
+});
+
+// Sticky прогресс
+const progressWrap = document.getElementById('progressWrap');
+const hero = document.querySelector('.hero');
+window.addEventListener('scroll', () => {
+  const heroBottom = hero.getBoundingClientRect().bottom;
+  if (heroBottom < 0) {
+    progressWrap.classList.add('scrolled');
+  } else {
+    progressWrap.classList.remove('scrolled');
+  }
+});
+
+// Сбор данных
+function collectAnswers() {
+  let text = "БРИФ ДЛЯ РЕКЛАМЫ И ЛЕНДИНГА\n";
+  text += "Парикмахер-колорист\n";
+  text += "Дата: " + new Date().toLocaleDateString('ru-RU') + "\n";
+  text += "═══════════════════════════════\n\n";
+
+  let qNum = 0;
+  let filled = 0;
+  SECTIONS.forEach(section => {
+    text += `\n━━━ ${section.num}. ${section.title.toUpperCase()} ━━━\n\n`;
+    section.questions.forEach(qData => {
+      qNum++;
+      const el = document.getElementById('q' + qNum);
+      const answer = (el?.value || '').trim();
+      if (answer) filled++;
+      text += `${qNum}. ${qData.q}\n`;
+      text += answer ? `${answer}\n\n` : `— не заполнено —\n\n`;
+    });
+  });
+
+  text += "═══════════════════════════════\n";
+  text += `Заполнено: ${filled} из ${qNum}\n`;
+  return { text, filled, total: qNum };
+}
+
+// Toast
+function showToast(msg, duration = 2800) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), duration);
+}
+
+// Проверка перед отправкой
+function confirmIfIncomplete(filled, total) {
+  if (filled < total) {
+    return confirm(`Заполнено ${filled} из ${total} вопросов. Отправить как есть?`);
+  }
+  return true;
+}
+
+// Скачать
+function downloadFile() {
+  const { text, filled, total } = collectAnswers();
+  if (filled === 0) {
+    showToast('Сначала заполните хотя бы один вопрос');
+    return;
+  }
+  if (!confirmIfIncomplete(filled, total)) return;
+
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const date = new Date().toISOString().slice(0,10);
+  a.download = `Бриф_колорист_${date}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  showToast('✓ Файл скачан — отправьте его мне');
+}
+
+// Telegram
+function sendToTelegram() {
+  const { text, filled, total } = collectAnswers();
+  if (filled === 0) {
+    showToast('Сначала заполните хотя бы один вопрос');
+    return;
+  }
+  if (!confirmIfIncomplete(filled, total)) return;
+
+  // Telegram имеет ограничение по длине URL — используем share URL
+  const limited = text.length > 3500 ? text.slice(0, 3400) + '\n\n[...текст обрезан, лучше скачайте файл]' : text;
+  const url = `https://t.me/share/url?url=${encodeURIComponent('Бриф для рекламы')}&text=${encodeURIComponent(limited)}`;
+  window.open(url, '_blank');
+
+  if (text.length > 3500) {
+    setTimeout(() => showToast('Текст длинный — лучше дополнительно скачайте файл', 4000), 500);
+  }
+}
+
+// WhatsApp
+function sendToWhatsApp() {
+  const { text, filled, total } = collectAnswers();
+  if (filled === 0) {
+    showToast('Сначала заполните хотя бы один вопрос');
+    return;
+  }
+  if (!confirmIfIncomplete(filled, total)) return;
+
+  const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+  window.open(url, '_blank');
+}
+
+// Старт
+loadAnswers();
+updateProgress();
+
+// Авто-высота для существующих
+document.querySelectorAll('textarea').forEach(el => {
+  if (el.value) {
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+  }
+});
+</script>
+
+</body>
+</html>
