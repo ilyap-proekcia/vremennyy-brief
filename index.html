@@ -720,8 +720,31 @@ function downloadFile() {
   showToast('✓ Файл скачан — отправьте его мне');
 }
 
-// Telegram
-function sendToTelegram() {
+// Универсальное копирование (работает и на http, и на старых браузерах)
+async function copyToClipboard(text) {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch(e) {}
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  } catch(e) { return false; }
+}
+
+const TELEGRAM_URL = 'https://t.me/il_pi';
+
+// Telegram — копируем текст и открываем чат с мастером
+async function sendToTelegram() {
   const { text, filled, total } = collectAnswers();
   if (filled === 0) {
     showToast('Сначала заполните хотя бы один вопрос');
@@ -729,18 +752,17 @@ function sendToTelegram() {
   }
   if (!confirmIfIncomplete(filled, total)) return;
 
-  // Telegram имеет ограничение по длине URL — используем share URL
-  const limited = text.length > 3500 ? text.slice(0, 3400) + '\n\n[...текст обрезан, лучше скачайте файл]' : text;
-  const url = `https://t.me/share/url?url=${encodeURIComponent('Бриф для рекламы')}&text=${encodeURIComponent(limited)}`;
-  window.open(url, '_blank');
-
-  if (text.length > 3500) {
-    setTimeout(() => showToast('Текст длинный — лучше дополнительно скачайте файл', 4000), 500);
+  const ok = await copyToClipboard(text);
+  if (ok) {
+    showToast('✓ Скопировано. Открываю Telegram — вставьте в чат', 3500);
+    setTimeout(() => window.open(TELEGRAM_URL, '_blank'), 600);
+  } else {
+    showToast('Не удалось скопировать. Скачайте файл и отправьте вручную', 4000);
   }
 }
 
-// WhatsApp
-function sendToWhatsApp() {
+// WhatsApp — копируем текст и открываем WhatsApp
+async function sendToWhatsApp() {
   const { text, filled, total } = collectAnswers();
   if (filled === 0) {
     showToast('Сначала заполните хотя бы один вопрос');
@@ -748,8 +770,13 @@ function sendToWhatsApp() {
   }
   if (!confirmIfIncomplete(filled, total)) return;
 
-  const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
-  window.open(url, '_blank');
+  const ok = await copyToClipboard(text);
+  if (ok) {
+    showToast('✓ Скопировано. Откройте WhatsApp и вставьте в чат с мастером', 4000);
+    setTimeout(() => window.open('https://web.whatsapp.com/', '_blank'), 600);
+  } else {
+    showToast('Не удалось скопировать. Скачайте файл и отправьте вручную', 4000);
+  }
 }
 
 // Старт
